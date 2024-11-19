@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import com.example.superheroapp.databinding.ActivityDetailSuperheroBinding
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,16 +22,23 @@ class DetailSuperheroActivity : AppCompatActivity() {
         const val EXTRA_ID = "extra_id"
     }
 
+    private lateinit var binding: ActivityDetailSuperheroBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityDetailSuperheroBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         enableEdgeToEdge()
         setContentView(R.layout.activity_detail_superhero)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val id:String = intent.getStringExtra(EXTRA_ID).orEmpty()
+
+        val id: String = intent.getStringExtra(EXTRA_ID).orEmpty()
         getSuperheroInformation(id)
     }
 
@@ -48,9 +57,8 @@ class DetailSuperheroActivity : AppCompatActivity() {
         }
     }
 
-    private fun createUI(body: SuperheroDetailResponse) {
-
-
+    private fun createUI(superhero: SuperheroDetailResponse) {
+        Picasso.get().load(superhero.image.url).into(binding.ivSuperhero)
     }
 
     private fun getRetrofit(): Retrofit {

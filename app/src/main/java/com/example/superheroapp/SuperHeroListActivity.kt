@@ -1,5 +1,6 @@
 package com.example.superheroapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -9,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.superheroapp.DetailSuperheroActivity.Companion.EXTRA_ID
 import com.example.superheroapp.databinding.ActivitySuperHeroListBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -53,10 +55,10 @@ class SuperHeroListActivity : AppCompatActivity() {
             override fun onQueryTextChange(newText: String?) = false
         })
 
-        adapter= SuperheroAdapter()
+        adapter = SuperheroAdapter{navigateToDetail(it)}
         binding.rvSuperHero.setHasFixedSize(true)
-        binding.rvSuperHero.layoutManager= LinearLayoutManager(this)
-        binding.rvSuperHero.adapter=adapter
+        binding.rvSuperHero.layoutManager = LinearLayoutManager(this)
+        binding.rvSuperHero.adapter = adapter
     }
 
     private fun searchByName(query: String) {
@@ -89,6 +91,13 @@ class SuperHeroListActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
+
+    }
+
+    private fun navigateToDetail(id: String) {
+        val intent = Intent(this, DetailSuperheroActivity::class.java)
+        intent.putExtra(EXTRA_ID, id)
+        startActivity(intent)
 
     }
 }

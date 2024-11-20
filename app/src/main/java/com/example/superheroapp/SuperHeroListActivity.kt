@@ -67,10 +67,10 @@ class SuperHeroListActivity : AppCompatActivity() {
             val myResponse: Response<SuperHeroDataResponse> =
                 retrofit.create(ApiService::class.java).getSuperheros(query)
             if (myResponse.isSuccessful) {
-                Log.i("Jean:", "funciona :)")
+                Log.i("Jean2:", "funciona :)")
                 val response: SuperHeroDataResponse? = myResponse.body()
                 if (response != null) {
-                    Log.i("Jean:", response.toString())
+                    Log.i("Jean2:", response.toString())
                     runOnUiThread {
                         adapter.updateList(response.superheroes)
                         binding.progressBar.isVisible = false
